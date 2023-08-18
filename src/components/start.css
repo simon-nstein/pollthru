@@ -1,0 +1,31 @@
+.mainDiv {
+    font-family: 'Poppins';
+    display: flex;
+    height: 100vh;
+    margin-top: 50px;
+    width: 35%;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto; /* Added this line */
+  }
+  
+  .heading{
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+  
+  .descript{
+    font-size: 2rem;
+    margin-bottom: 75px;
+    margin-top: 13px;
+  }
+  
+  .btn{
+    font-size: 1.7rem;
+    border: 2px solid black;
+    border-radius: 17px;
+    padding: 6px;
+    background: rgba(255, 255, 255, 0);
+    width: 50%;
+  }
+  

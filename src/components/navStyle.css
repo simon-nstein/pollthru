@@ -1,0 +1,30 @@
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  border-bottom: 1px solid #e1e1e1;
+  font-family: 'Poppins';
+}
+
+.navbar__title {
+  flex-grow: 1; /* Allow title to grow and take remaining space */
+  text-align: center; /* Center align the title */
+  font-size: 1.7rem;
+  font-weight: bold;
+}
+
+.navbar__icons {
+  display: flex;
+}
+
+.navbar__icon {
+  margin-left: 10px;
+  font-size: 20px;
+}
+
+.navbar__line {
+  height: 1px;
+  background-color: #ccc;
+  margin-top: 10px;
+}
