@@ -292,19 +292,23 @@ const Popup = ({ isOpen, onClose, analyzeOpen }) => {
 
   const handleSubmit = async (event) => {
 
-    if( button1Color === "purple" || button2Color === "purple" ){
+    if( button1Color === "#8848F5" || button2Color === "#8848F5" ){
+        console.log("0");
 
         let pick;
         if( button1Color === "purple"){
+            console.log("2");
             pick = Option_1;
         } else{
             pick = Option_2;
+            console.log("1");
         }
 
         event.preventDefault();
         const user = auth.currentUser;
     
         if (user) {
+            console.log("3");
             const userId = user.uid;
         
             const formattedDate = getCurrentFormattedDate();

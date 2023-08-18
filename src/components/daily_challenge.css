@@ -17,9 +17,9 @@
 }
 
 .shareBtn{
-    width: 43%;
+    width: 34%;
     border-radius: 35px;
-    padding: 12px 10px;
+    padding: 4px 8px;
     background-color: #8848F5;
     display: flex;
     align-items: center;
@@ -43,13 +43,14 @@
 
 
 .submit{
-    width: 43%;
+    width: 34%;
     border-radius: 35px;
-    padding: 12px 10px;
+    padding: 4px 8px;
     background-color: #8848F5;
     color: white;
     font-weight: bold;
     font-size: 1.1rem;
     font-family: 'Poppins';
     border: 2px solid #8848F5;
+    margin-top: 12px;
 }
