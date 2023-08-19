@@ -1,6 +1,7 @@
 .closeButtonStyle{
     margin-left: auto;
     display: flex;
+    cursor: "pointer",
 }
 
 .most-all{

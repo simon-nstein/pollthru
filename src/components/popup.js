@@ -225,7 +225,7 @@ const Popup = ({ isOpen, onClose, analyzeOpen }) => {
           const { Option_1 } = docSnapTwo.data();
           if( Option_1 === dp_pick ){
             //setPollPick("option_1");
-            setButton1Color("purple");
+            setButton1Color("#8848F5");
             setButton2Color("white");
 
             setButton1TextColor("white");
@@ -233,10 +233,10 @@ const Popup = ({ isOpen, onClose, analyzeOpen }) => {
           } if( Option_2 === dp_pick ){
             //setPollPick("option_2");
             setButton1Color("white");
-            setButton2Color("purple");
-
             setButton1TextColor("black");
-            setButton1TextColor("white");
+
+            setButton2Color("#8848F5");
+            setButton2TextColor("white");
 
           } else{
             setButton1Color("white");
@@ -293,22 +293,18 @@ const Popup = ({ isOpen, onClose, analyzeOpen }) => {
   const handleSubmit = async (event) => {
 
     if( button1Color === "#8848F5" || button2Color === "#8848F5" ){
-        console.log("0");
 
         let pick;
-        if( button1Color === "purple"){
-            console.log("2");
+        if( button1Color === "#8848F5"){
             pick = Option_1;
         } else{
             pick = Option_2;
-            console.log("1");
         }
 
         event.preventDefault();
         const user = auth.currentUser;
     
         if (user) {
-            console.log("3");
             const userId = user.uid;
         
             const formattedDate = getCurrentFormattedDate();
@@ -353,8 +349,8 @@ const Popup = ({ isOpen, onClose, analyzeOpen }) => {
             <button class="submit-popup" type="submit" onClick={handleSubmit}>Submit</button>
           ) : (
             <button class="shareBtn" onClick={onShare}>
-                  <BsShare size={25} class="shareIcon"/>
                   <span class="shareText">Share</span>
+                  <BsShare size={20} class="shareIcon"/>
             </button>
           )}
         </div>

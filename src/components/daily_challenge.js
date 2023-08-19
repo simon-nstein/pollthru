@@ -102,8 +102,8 @@ export const DC = () => {
             <h1 class="offBy">You were {difference} percent off</h1>
 
             <button class="shareBtn" onClick={handleShare}>
-              <BsShare size={25} class="shareIcon"/>
               <span class="shareText">Share</span>
+              <BsShare size={20} class="shareIcon"/>
             </button>
 
             <Popup isOpen={modalIsOpen} onClose={() => setModalIsOpen(false)} difference={difference} />
