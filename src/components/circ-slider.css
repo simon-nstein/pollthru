@@ -1,0 +1,42 @@
+.circular-slider-container {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin: 50px auto;
+  }
+  
+  .circular-slider-bg {
+    fill: none;
+    stroke: #ccc;
+    stroke-width: 20;
+  }
+  
+  .circular-slider-thumb {
+    fill: none;
+    stroke: #007bff;
+    stroke-width: 20;
+    transition: transform 0.2s;
+    transform-origin: center;
+    cursor: grab;
+  }
+  
+  .slider-value {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.5rem;
+    color: #007bff;
+  }
+  
+.circular-slider-line {
+  stroke: #ccc;
+  stroke-width: 2;
+  transition: transform 0.2s;
+}
+
+.circular-slider-knob {
+  fill: #007bff;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
