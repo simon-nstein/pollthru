@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Auth } from './components/auth';
 import { DC } from './components/daily_challenge';
 import { Start } from './components/start'
-import { Circle } from './components/circle'
+import { Circle } from './components/circle.js'
 import { CircularSlider } from './components/circ-slider'
 
 

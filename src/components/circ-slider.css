@@ -11,13 +11,14 @@
     stroke-width: 20;
   }
   
-  .circular-slider-thumb {
-    fill: none;
-    stroke: #007bff;
-    stroke-width: 20;
+  .circular-slider-fill {
+    transition: stroke-dasharray 0.2s;
+  }
+  
+  .circular-slider-knob {
+    fill: #007bff;
+    cursor: pointer;
     transition: transform 0.2s;
-    transform-origin: center;
-    cursor: grab;
   }
   
   .slider-value {
@@ -29,14 +30,9 @@
     color: #007bff;
   }
   
-.circular-slider-line {
-  stroke: #ccc;
-  stroke-width: 2;
-  transition: transform 0.2s;
-}
-
-.circular-slider-knob {
-  fill: #007bff;
-  cursor: pointer;
-  transition: transform 0.2s;
-}
+  .circular-slider-line {
+    stroke: #ccc;
+    stroke-width: 2;
+    transition: transform 0.2s;
+  }
+  

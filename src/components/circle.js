@@ -23,5 +23,6 @@ export const Circle = () => {
         >
         <AiOutlinePercentage x="9" y="9" width="18px" height="18px" color="#FFFFFF"/>
         </CircularSlider>
+        
     );    
 };
