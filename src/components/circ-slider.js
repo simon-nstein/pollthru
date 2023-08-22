@@ -36,8 +36,9 @@ export const CircularSlider = () => {
     const newPercentage = (clampedDistance / maxDistance) * 100;
     setPercentage(newPercentage);
 
-    const angleToCenter = (newAngle + 90) % 360;
+    const angleToCenter = ((newAngle + 90) + 360) % 360;
     const percentageFromAngle = angleToCenter / 360;
+    console.log(percentageFromAngle);
     setShowPercent(Math.round(percentageFromAngle * 100));
 
     const knob_follow_length = 484 * percentageFromAngle;
