@@ -7,6 +7,7 @@ import { BsShare } from 'react-icons/bs';
 import NavBar from '../components/nav';
 
 import "../components/daily_challenge.css";
+import { CircularSlider } from '../components/circ-slider';
 
 const auth = getAuth();
 
@@ -27,6 +28,15 @@ export const DC = () => {
   const [difference, setDifference] = useState(0);
   const [submitted, setSubmitted] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [offByPercent, setOffByPercent] = useState(0);
+
+  //new
+  const [parentShowPercent, setParentShowPercent] = useState(0);
+
+  const handleShowPercentChange = (newShowPercent) => {
+    // Update the show_percent value in the parent component's state
+    setParentShowPercent(newShowPercent);
+  };
 
   async function getQuestion() {
     // Getting today's Date
@@ -55,11 +65,13 @@ export const DC = () => {
 
   useEffect(() => {
     getQuestion();
+    console.log("HIIII", CircularSlider.knobOffset);
   }, []);
 
   
   async function handleSubmit(event) {
-    const value = 22; //I just put a random value
+    console.log("parentShowPercent", parentShowPercent);
+    const value = parentShowPercent;
     const user = auth.currentUser;
   
     if (user) {
@@ -69,6 +81,7 @@ export const DC = () => {
       const dcDocRef = doc(db, "entries", userId, "date", formattedDate);
 
       const diff = Math.abs(value - dcPercent);
+      setOffByPercent(diff);
     
       await setDoc(dcDocRef, {
         dc_percent: value,
@@ -96,6 +109,9 @@ export const DC = () => {
       <div class="main-dc-div">
         <h1 class="challenge-header">DAILY CHALLENGE</h1>
         <h1 class="dcQuestion">{dcQuestion}</h1>
+        <p></p>
+        <CircularSlider onShowPercentChange={handleShowPercentChange} submitted={submitted} difference={difference} offByPercent={offByPercent}/>
+        <p>Show Percent in Parent: {parentShowPercent}%</p>
         
         {submitted ? (
           <>
