@@ -28,7 +28,6 @@ export const DC = () => {
   const [difference, setDifference] = useState(0);
   const [submitted, setSubmitted] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [offByPercent, setOffByPercent] = useState(0);
 
   //new
   const [parentShowPercent, setParentShowPercent] = useState(0);
@@ -52,6 +51,7 @@ export const DC = () => {
       if (docSnap.exists()) {
         const { dc_question } = docSnap.data();
         const { dc_question_percent } = docSnap.data();
+        console.log("HEHEHEHEHE", dc_question_percent);
 
         setDcQuestion(dc_question);
         setDcPercent(dc_question_percent);
@@ -81,7 +81,6 @@ export const DC = () => {
       const dcDocRef = doc(db, "entries", userId, "date", formattedDate);
 
       const diff = Math.abs(value - dcPercent);
-      setOffByPercent(diff);
     
       await setDoc(dcDocRef, {
         dc_percent: value,
@@ -110,7 +109,7 @@ export const DC = () => {
         <h1 class="challenge-header">DAILY CHALLENGE</h1>
         <h1 class="dcQuestion">{dcQuestion}</h1>
         <p></p>
-        <CircularSlider onShowPercentChange={handleShowPercentChange} submitted={submitted} difference={difference} offByPercent={offByPercent}/>
+        <CircularSlider onShowPercentChange={handleShowPercentChange} submitted={submitted} difference={difference} />
         <p>Show Percent in Parent: {parentShowPercent}%</p>
         
         {submitted ? (
