@@ -22,7 +22,8 @@ function getCurrentFormattedDate() {
 }
 
 
-export const CircularSlider = ({ onShowPercentChange, submitted, difference}) => {
+export const CircularSlider = ({ onShowPercentChange, submitted, difference, setSubmitted}) => {
+
   const radius = 80;
   const knobRadius = 10;
   const center = radius + 10;
@@ -35,6 +36,34 @@ export const CircularSlider = ({ onShowPercentChange, submitted, difference}) =>
   const [show_percent, setShowPercent] = useState(0);
   const [dcPercent, setDcPercent] = useState(0);
   const [strokeDashoffsetNew, setSDO] = useState(0);
+
+
+  async function getDC() {
+    console.log("KJDWVBIERYBV");
+    // Getting today's Date
+    const formattedDate = getCurrentFormattedDate();
+
+    // Checking if the user is authenticated
+    const user = auth.currentUser;
+
+    if (user) {
+      const userId = user.uid;
+      const docRef = doc(db, "entries", userId, "date", formattedDate);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        //If they have done Daily Challenge
+        const { dc_percent } = docSnap.data();
+        setKnobDashOffest(804-(484*(dc_percent/100)));
+        setShowPercent(dc_percent);
+        const { percent_off } = docSnap.data();
+        setSubmitted(true);
+        //submitted = true; //this does not work
+      } else {
+        //if they haven't done Daily Challenge yet
+      }
+    }
+  }
 
   async function getQuestion() {
     // Getting today's Date
@@ -71,7 +100,7 @@ export const CircularSlider = ({ onShowPercentChange, submitted, difference}) =>
     config: { duration: 3000 }, // Adjust the duration as needed
   });
 
-  console.log("submitted", submitted)
+  console.log("submitted", submitted);
 
   const handleDragStart = (event) => {
     event.preventDefault();
@@ -143,6 +172,7 @@ export const CircularSlider = ({ onShowPercentChange, submitted, difference}) =>
   }, [isDragging]);
 
   useEffect(() => {
+    getDC();
     getQuestion();
     setKnobAngle(270); // Set the initial angle of the knob when the page loads
   }, []);

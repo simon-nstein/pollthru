@@ -63,9 +63,32 @@ export const DC = () => {
     }
   }
 
+  async function getOffBy() {
+    // Getting today's Date
+    const formattedDate = getCurrentFormattedDate();
+
+    // Checking if the user is authenticated
+    const user = auth.currentUser;
+
+    if (user) {
+      const userId = user.uid;
+      const docRef = doc(db, "entries", userId, "date", formattedDate);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        //If they have done Daily Challenge
+        const { percent_off } = docSnap.data();
+        setDifference(percent_off);
+      } else {
+        //if they haven't done Daily Challenge yet
+      }
+    }
+  }
+
   useEffect(() => {
     getQuestion();
     console.log("HIIII", CircularSlider.knobOffset);
+    getOffBy();
   }, []);
 
   
@@ -108,7 +131,7 @@ export const DC = () => {
       <div class="main-dc-div">
         <h1 class="challenge-header">DAILY CHALLENGE</h1>
         <h1 class="dcQuestion">{dcQuestion}</h1>
-        <CircularSlider onShowPercentChange={handleShowPercentChange} submitted={submitted} difference={difference} />
+        <CircularSlider onShowPercentChange={handleShowPercentChange} submitted={submitted} difference={difference} setSubmitted={setSubmitted}/>
         
         {submitted ? (
           <>
