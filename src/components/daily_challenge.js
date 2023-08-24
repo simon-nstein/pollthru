@@ -108,13 +108,11 @@ export const DC = () => {
       <div class="main-dc-div">
         <h1 class="challenge-header">DAILY CHALLENGE</h1>
         <h1 class="dcQuestion">{dcQuestion}</h1>
-        <p></p>
         <CircularSlider onShowPercentChange={handleShowPercentChange} submitted={submitted} difference={difference} />
-        <p>Show Percent in Parent: {parentShowPercent}%</p>
         
         {submitted ? (
           <>
-            <h1 class="offBy">You were {difference} percent off</h1>
+            <p style={{fontSize: '1.5rem', marginTop: '0'}}>You were <b>{difference}% off</b></p>
 
             <button class="shareBtn" onClick={handleShare}>
               <span class="shareText">Share</span>

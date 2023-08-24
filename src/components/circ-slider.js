@@ -161,8 +161,8 @@ export const CircularSlider = ({ onShowPercentChange, submitted, difference}) =>
   };
 
   const pathStyleTwo = {
-    stroke: '#F54842',
-    strokeWidth: 20,
+    stroke: '#55b051',
+    strokeWidth: 8,
     strokeLinecap: 'round',
     fill: 'none',
   };
@@ -171,15 +171,23 @@ export const CircularSlider = ({ onShowPercentChange, submitted, difference}) =>
     fill: 'white',
     cursor: 'pointer',
     transition: 'transform 0.2s',
+    visibility: submitted ? 'hidden': 'visible'
+  };
+
+  const mainDivSliderStyle = {
+    display: 'flex',
+    alignItems: 'center',
   };
 
   return (
-    <div>
+    <div style={mainDivSliderStyle}>
       <svg
         ref={svgRef}
-        width={radius * 2 + 20}
-        height={radius * 2 + 20}
-        viewBox="0 0 180 180"
+        //width={radius * 2 + 20}
+        //height={radius * 2 + 20}
+        width={200}
+        height={200}
+        viewBox="-15 10 230 180"
       >
         <circle cx={center} cy={center} r={radius} style={circleStyle} />
         <path
@@ -205,23 +213,24 @@ export const CircularSlider = ({ onShowPercentChange, submitted, difference}) =>
             strokeDashoffset={knobDashOffsetAnimation.strokeDashoffset}
             style={pathStyleTwo}
             d={`M ${center}, ${center}
-              m 0, -${radius}
-              a ${radius},${radius} 0 0,1 0,${radius * 2}
-              a -${radius},-${radius} 0 0,1 0,-${radius * 2}`}
+              m 0, -${radius+20}
+              a ${radius+20},${radius+20} 0 0,1 0,${(radius+ 20) * 2}
+              a -${radius+20},-${radius+20} 0 0,1 0,-${(radius+20) * 2}`}
           />
         )}
 
         <Text
           x={center}
-          y={center}
+          y={center+10}
           textAnchor="middle"
           fill="black"
+          style={{fontSize: '2rem'}}
         >
           {show_percent}%
         </Text>
       </svg>
       {submitted && (
-      <p>{number}%</p>
+      <p style={{fontSize: '2rem', marginLeft: '5px', color: '#55b051', fontWeight: '600'}}>{number}%</p>
       )}
     </div>
   );
