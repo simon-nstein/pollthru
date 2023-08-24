@@ -31,6 +31,8 @@ export const CircularSlider = ({ onShowPercentChange, submitted, difference, set
 
   const [percentage, setPercentage] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
+  const [isDraggingMobile, setIsDraggingMobile] = useState(false);
+  
   const [knobAngle, setKnobAngle] = useState(90);
   const [knob_dash_offset, setKnobDashOffest] = useState(804);
   const [show_percent, setShowPercent] = useState(0);
@@ -39,7 +41,6 @@ export const CircularSlider = ({ onShowPercentChange, submitted, difference, set
 
 
   async function getDC() {
-    console.log("KJDWVBIERYBV");
     // Getting today's Date
     const formattedDate = getCurrentFormattedDate();
 
@@ -100,14 +101,13 @@ export const CircularSlider = ({ onShowPercentChange, submitted, difference, set
     config: { duration: 3000 }, // Adjust the duration as needed
   });
 
-  console.log("submitted", submitted);
-
   const handleDragStart = (event) => {
     event.preventDefault();
     setIsDragging(true);
   };
 
   const handleDrag = (event) => {
+    
     if (!isDragging || submitted) return;
 
     const svgRect = svgRef.current.getBoundingClientRect();
@@ -135,11 +135,43 @@ export const CircularSlider = ({ onShowPercentChange, submitted, difference, set
     setKnobDashOffest(new_knob_dash_offset);
   };
 
+  const handleTouchStart = (event) => {
+    //event.preventDefault();
+    setIsDraggingMobile(true);
+  };
+
+  const handleTouchMove = (event) => {
+    
+    if (!isDraggingMobile || submitted) return;
+
+    const svgRect = svgRef.current.getBoundingClientRect();
+    const x = event.touches[0].clientX - svgRect.left;
+    const y = event.touches[0].clientY - svgRect.top;
+    const newAngle = Math.atan2(y - center, x - center) * (180 / Math.PI);
+    const distance = Math.sqrt((x - center) ** 2 + (y - center) ** 2);
+    const maxDistance = radius - knobRadius;
+
+    setKnobAngle(newAngle);
+
+    const clampedDistance = Math.min(maxDistance, Math.max(0, distance));
+    const newPercentage = (clampedDistance / maxDistance) * 100;
+    setPercentage(newPercentage);
+
+    const angleToCenter = ((newAngle + 90) + 360) % 360;
+    const percentageFromAngle = angleToCenter / 360;
+    setShowPercent(Math.round(percentageFromAngle * 100));
+
+    //new
+    onShowPercentChange(Math.round(percentageFromAngle * 100));
+
+    const knob_follow_length = 484 * percentageFromAngle;
+    const new_knob_dash_offset = 804 - knob_follow_length;
+    setKnobDashOffest(new_knob_dash_offset);
+  };
+
   useEffect(() => {
-    //console.log("YOOOOOOOOO", dcPercent);
     //NEW
     if (submitted) {
-      console.log("HMMMMMMMM");
       const interval = setInterval(() => {
         if (number < dcPercent) {
           setNumber(prevNumber => prevNumber + 1);
@@ -160,16 +192,35 @@ export const CircularSlider = ({ onShowPercentChange, submitted, difference, set
       setIsDragging(false);
     };
 
+    const handlePressUp = () => {
+      setIsDraggingMobile(true);
+    };
+
+    const handlePressLeave = () => {
+      setIsDraggingMobile(false);
+    };
+
     window.addEventListener('mousemove', handleDrag);
     window.addEventListener('mouseup', handleMouseUp);
     window.addEventListener('mouseleave', handleMouseLeave);
+
+    //mobile
+    window.addEventListener('touchmove', handleTouchMove, { passive: false });
+    window.addEventListener('touchstart', handlePressUp, { passive: false });
+    window.addEventListener('touchend', handlePressLeave, { passive: false });
+
 
     return () => {
       window.removeEventListener('mousemove', handleDrag);
       window.removeEventListener('mouseup', handleMouseUp);
       window.removeEventListener('mouseleave', handleMouseLeave);
+
+      //mobile
+      window.removeEventListener('touchmove', handleTouchMove);
+      window.removeEventListener('touchstart', handlePressUp);
+      window.removeEventListener('touchend', handlePressLeave);
     };
-  }, [isDragging]);
+  }, [isDragging, isDraggingMobile]);
 
   useEffect(() => {
     getDC();
@@ -235,6 +286,7 @@ export const CircularSlider = ({ onShowPercentChange, submitted, difference, set
           r={knobRadius}
           style={knobStyle}
           onMouseDown={handleDragStart}
+          onTouchStart={handleTouchStart}
         />
 
         {submitted && (

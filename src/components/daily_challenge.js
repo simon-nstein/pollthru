@@ -51,7 +51,6 @@ export const DC = () => {
       if (docSnap.exists()) {
         const { dc_question } = docSnap.data();
         const { dc_question_percent } = docSnap.data();
-        console.log("HEHEHEHEHE", dc_question_percent);
 
         setDcQuestion(dc_question);
         setDcPercent(dc_question_percent);
@@ -87,13 +86,11 @@ export const DC = () => {
 
   useEffect(() => {
     getQuestion();
-    console.log("HIIII", CircularSlider.knobOffset);
     getOffBy();
   }, []);
 
   
   async function handleSubmit(event) {
-    console.log("parentShowPercent", parentShowPercent);
     const value = parentShowPercent;
     const user = auth.currentUser;
   
