@@ -86,7 +86,7 @@ const Popup = ({ isOpen, onClose, analyzeOpen }) => {
   };
   
   // Add media query for screens with width below 400px
-  if (window.innerWidth < 400) {
+  if (window.innerWidth < 500) {
     modalContentStyle.width = "82%";
     modalContentStyle.inset = "28px 14px";
   }
