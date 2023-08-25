@@ -63,6 +63,7 @@
     font-family: 'Poppins';
     align-items: center;
     margin-left: 10px;
+    color: black;
 }
 
 @media screen and (max-width: 500px) {
