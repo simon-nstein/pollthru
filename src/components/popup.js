@@ -114,7 +114,6 @@ const Popup = ({ isOpen, onClose, analyzeOpen }) => {
     if (user) {
       const docRef = doc(db, "daily_poll", formattedDate);
       const docSnap = await getDoc(docRef);
-      console.log("user yes")
 
       if (docSnap.exists()) {
         const { Option_1 } = docSnap.data();
@@ -143,7 +142,6 @@ const Popup = ({ isOpen, onClose, analyzeOpen }) => {
       const querySnapshot = await getDocs(collectionRef);
       const count = querySnapshot.size;
       
-      console.log("getPlayed", count);
       setPlayed(count);
       return count
     }
@@ -164,7 +162,6 @@ const Popup = ({ isOpen, onClose, analyzeOpen }) => {
         num_entries += 1;
       });
 
-      console.log("getAvrgPO", avrg_percent_off / num_entries);
       setAvrgPO(avrg_percent_off / num_entries);
       return avrg_percent_off / num_entries;
     }
@@ -185,7 +182,6 @@ const Popup = ({ isOpen, onClose, analyzeOpen }) => {
         }
       });
 
-      console.log("getLowestGuess", lowest_guess);
       setOffBy(lowest_guess);
       return lowest_guess;
     }
@@ -219,14 +215,12 @@ const Popup = ({ isOpen, onClose, analyzeOpen }) => {
       }
     }
 
-    console.log("getStreak", streak);
     streak -= 1 //because a streak needs to be two consectuave days so they first day can't count
     setStreak(streak);
     return streak;
   }
 
   async function getPollPick() {
-    console.log("IN");
     // Getting today's Date
     const formattedDate = getCurrentFormattedDate();
 

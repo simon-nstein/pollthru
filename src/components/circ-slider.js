@@ -79,7 +79,6 @@ export const CircularSlider = ({ onShowPercentChange, submitted, difference, set
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
-        console.log("should i be in here??")
         const { dc_question_percent } = docSnap.data();
 
         setDcPercent(dc_question_percent);
@@ -169,15 +168,11 @@ export const CircularSlider = ({ onShowPercentChange, submitted, difference, set
   };
 
   useEffect(() => {
-    console.log("here", strokeDashoffsetNew);
-    //NEW
     if (submitted) {
-      console.log("HMMMMMMM", strokeDashoffsetNew);
       const interval = setInterval(() => {
         if (number < dcPercent) {
           setNumber(prevNumber => prevNumber + 1);
           setSDO(strokeDashoffsetNew-4.84);
-          console.log(strokeDashoffsetNew);
           
         }
         if(number === (dcPercent-1)){
