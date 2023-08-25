@@ -158,6 +158,8 @@ export const DC = () => {
       }
     } else {
       // User is on a computer
+      let message = "why are you blue?";
+      navigator.clipboard.writeText(message)
       setShareClicked(true);
     }
   }

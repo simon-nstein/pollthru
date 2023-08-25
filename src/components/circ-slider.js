@@ -172,7 +172,7 @@ export const CircularSlider = ({ onShowPercentChange, submitted, difference, set
       const interval = setInterval(() => {
         if (number < dcPercent) {
           setNumber(prevNumber => prevNumber + 1);
-          setSDO(strokeDashoffsetNew-4.84);
+          setSDO(strokeDashoffsetNew - 6.26); //4.84 old
           
         }
         if(number === (dcPercent-1)){
