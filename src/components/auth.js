@@ -28,16 +28,6 @@ export const Auth = () => {
         }
     };
 
-    const logout = async () => {
-        try{
-        await signOut(auth)
-        } catch(err) {
-            console.error(err);
-        }
-    };
-
-    
-
     return (
     <div class="mainDivTwo">
         <p className="headingAuth">Log in or create an account</p>

@@ -11,6 +11,8 @@ import { collection, getDocs } from "firebase/firestore";
 import { GrClose } from 'react-icons/gr';
 import {Alert, Share, View, Button} from 'react-native';
 
+import { useNavigate } from 'react-router-dom';
+
 import "../components/popup.css";
 
 Modal.setAppElement("#root");
@@ -28,6 +30,7 @@ function getCurrentFormattedDate() {
 }
 
 const Popup = ({ isOpen, onClose, analyzeOpen }) => {
+  const navigate = useNavigate();
   const [timeTill12AM, setTimeTill12AM] = useState(null);
 
   const [button1Color, setButton1Color] = useState("white");
@@ -68,7 +71,7 @@ const Popup = ({ isOpen, onClose, analyzeOpen }) => {
     if (shareClicked) {
       const timeout = setTimeout(() => {
         setShareClicked(false);
-      }, 5000);
+      }, 2500);
 
       return () => clearTimeout(timeout);
     }
@@ -126,6 +129,7 @@ const Popup = ({ isOpen, onClose, analyzeOpen }) => {
       }
     } else {
       console.log("User is not authenticated. Query cannot be executed.");
+      navigate("/login");
     }
   }
 
@@ -345,7 +349,7 @@ const Popup = ({ isOpen, onClose, analyzeOpen }) => {
 
   return (
     <Modal isOpen={isOpen} onRequestClose={onClose} style={{ content: modalContentStyle }}>
-      {shareClicked && <div class="box">This is the box</div>}
+      {shareClicked && <div class="copiedClipboard">Copied Results to Clipboard</div>}
       <GrClose class="closeButtonStyle" size={25} onClick={onClose}/>
       <div class="most-all">
         <h1 class="topHeader">NEXT CHALLENGE</h1>

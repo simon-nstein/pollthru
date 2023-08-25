@@ -58,11 +58,15 @@
 
 .copiedClipboard{
     background: black;
-    width: 10%;
     color: white;
     border-radius: 3px;
-    padding: 10px;
+    padding: 16px;
     font-size: 1rem;
+    position: absolute;
+    margin: auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 @media screen and (max-width: 400px) {

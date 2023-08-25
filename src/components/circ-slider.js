@@ -5,6 +5,7 @@ import { useSpring, animated } from 'react-spring';
 import { getAuth } from "firebase/auth";
 import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { db } from '../config/firebase';
+import { useNavigate } from 'react-router-dom';
 
 const AnimatedPath = animated.path;
 
@@ -23,6 +24,7 @@ function getCurrentFormattedDate() {
 
 
 export const CircularSlider = ({ onShowPercentChange, submitted, difference, setSubmitted, setShowOffBy}) => {
+  const navigate = useNavigate();
 
   const radius = 80;
   const knobRadius = 10;
@@ -89,6 +91,7 @@ export const CircularSlider = ({ onShowPercentChange, submitted, difference, set
       }
     } else {
       console.log("User is not authenticated. Query cannot be executed.");
+      navigate("/login");
     }
   }
 

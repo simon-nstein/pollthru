@@ -5,6 +5,7 @@ import { getAuth } from "firebase/auth";
 import Popup from "../components/popup";
 import { BsShare } from 'react-icons/bs';
 import NavBar from '../components/nav';
+import { useNavigate } from 'react-router-dom';
 
 import "../components/daily_challenge.css";
 import { CircularSlider } from '../components/circ-slider';
@@ -23,6 +24,7 @@ function getCurrentFormattedDate() {
 }
 
 export const DC = () => {
+  const navigate = useNavigate();
   const [dcQuestion, setDcQuestion] = useState("");
   const [dcPercent, setDcPercent] = useState(0);
   const [difference, setDifference] = useState(0);
@@ -68,6 +70,7 @@ export const DC = () => {
       }
     } else {
       console.log("User is not authenticated. Query cannot be executed.");
+      navigate("/login");
     }
   }
 
@@ -102,7 +105,7 @@ export const DC = () => {
     if (shareClicked) {
       const timeout = setTimeout(() => {
         setShareClicked(false);
-      }, 100000);//3000
+      }, 2500);
 
       return () => clearTimeout(timeout);
     }
@@ -133,7 +136,7 @@ export const DC = () => {
 
     setTimeout(() => {
         setModalIsOpen(true);
-      }, 7000); // 4 seconds delay
+      }, 11000);
   }
 
   async function onShare() {
