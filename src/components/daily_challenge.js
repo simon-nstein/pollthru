@@ -31,10 +31,18 @@ export const DC = () => {
 
   //new
   const [parentShowPercent, setParentShowPercent] = useState(0);
+  const [parentShowOffBy, setParentShowOffBy] = useState(0);
+
+  const [shareClicked, setShareClicked] = useState(false);
 
   const handleShowPercentChange = (newShowPercent) => {
     // Update the show_percent value in the parent component's state
     setParentShowPercent(newShowPercent);
+  };
+
+  const handleshowOffByChange = (newShowOffBy) => {
+    // Update the show_percent value in the parent component's state
+    setParentShowOffBy(newShowOffBy);
   };
 
   async function getQuestion() {
@@ -45,6 +53,7 @@ export const DC = () => {
     const user = auth.currentUser;
 
     if (user) {
+
       const docRef = doc(db, "questions", formattedDate);
       const docSnap = await getDoc(docRef);
 
@@ -89,6 +98,16 @@ export const DC = () => {
     getOffBy();
   }, []);
 
+  useEffect(() => {
+    if (shareClicked) {
+      const timeout = setTimeout(() => {
+        setShareClicked(false);
+      }, 100000);//3000
+
+      return () => clearTimeout(timeout);
+    }
+  }, [shareClicked]);
+
   
   async function handleSubmit(event) {
     const value = parentShowPercent;
@@ -114,27 +133,49 @@ export const DC = () => {
 
     setTimeout(() => {
         setModalIsOpen(true);
-      }, 4000); // 4 seconds delay
+      }, 7000); // 4 seconds delay
   }
 
-  async function handleShare(event) {
-    //share button function
+  async function onShare() {
+    const userAgent = navigator.userAgent.toLowerCase();
+
+    if (userAgent.match(/mobile|iphone|android/)) {
+      // User is on a phone
+      const shareData = {
+        title: 'MDN',
+        text: 'Learn web development on MDN!',
+        url: 'https://developer.mozilla.org',
+      };
+
+      try {
+        await navigator.share(shareData);
+        console.log('Shared successfully');
+      } catch (error) {
+        console.error('Error sharing:', error);
+      }
+    } else {
+      // User is on a computer
+      setShareClicked(true);
+    }
   }
 
 
   return (
     <div >
+      {shareClicked && <div class="copiedClipboard">Copied Results to Clipboard</div>}
       <NavBar />
       <div class="main-dc-div">
         <h1 class="challenge-header">DAILY CHALLENGE</h1>
         <h1 class="dcQuestion">{dcQuestion}</h1>
-        <CircularSlider onShowPercentChange={handleShowPercentChange} submitted={submitted} difference={difference} setSubmitted={setSubmitted}/>
+        <CircularSlider onShowPercentChange={handleShowPercentChange} submitted={submitted} difference={difference} setSubmitted={setSubmitted} setShowOffBy={handleshowOffByChange}/>
         
         {submitted ? (
           <>
+            {parentShowOffBy && ( //showOffBy
             <p style={{fontSize: '1.5rem', marginTop: '0'}}>You were <b>{difference}% off</b></p>
+            )}
 
-            <button class="shareBtn" onClick={handleShare}>
+            <button class="shareBtn" onClick={onShare}>
               <span class="shareText">Share</span>
               <BsShare size={20} class="shareIcon"/>
             </button>

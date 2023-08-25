@@ -1,7 +1,6 @@
 .navbar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   padding: 16px;
   border-bottom: 1px solid #e1e1e1;
   font-family: 'Poppins';
@@ -16,6 +15,9 @@
 
 .navbar__icons {
   display: flex;
+  position: absolute;
+  right: 0;
+  margin-right: 20px;
 }
 
 .navbar__icon {

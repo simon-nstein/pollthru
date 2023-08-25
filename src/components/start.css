@@ -29,3 +29,11 @@
     width: 39%;
   }
   
+  @media screen and (max-width: 400px) {
+    .mainDiv {
+      width: 85%;
+    }
+    .btn{
+      width: 75%;
+    }
+  }

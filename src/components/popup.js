@@ -46,6 +46,8 @@ const Popup = ({ isOpen, onClose, analyzeOpen }) => {
   const [Streak, setStreak] = useState(0);
   const [OffBy, setOffBy] = useState(0);
 
+  const [shareClicked, setShareClicked] = useState(false);
+
   //const [pollPick, setPollPick] = useState(null);
 
 
@@ -62,10 +64,26 @@ const Popup = ({ isOpen, onClose, analyzeOpen }) => {
     calculateTimeUntil12AM();
   }, []);
 
+  useEffect(() => {
+    if (shareClicked) {
+      const timeout = setTimeout(() => {
+        setShareClicked(false);
+      }, 5000);
+
+      return () => clearTimeout(timeout);
+    }
+  }, [shareClicked]);
+
   const modalContentStyle = {
     width: "35%",
     margin: "0 auto",
   };
+  
+  // Add media query for screens with width below 400px
+  if (window.innerWidth < 400) {
+    modalContentStyle.width = "82%";
+    modalContentStyle.inset = "28px 14px";
+  }
 
   const handleButton1Click = () => {
     setButton1Color("#8848F5");
@@ -138,7 +156,6 @@ const Popup = ({ isOpen, onClose, analyzeOpen }) => {
       let num_entries = 0;
       querySnapshot.forEach((doc) => {
         const { percent_off } = doc.data();
-        console.log('percent_off:', percent_off);
         avrg_percent_off += percent_off;
         num_entries += 1;
       });
@@ -259,27 +276,28 @@ const Popup = ({ isOpen, onClose, analyzeOpen }) => {
     }
   }
 
-  const onShare = async () => {
-    try {
-      const result = await Share.share({
-        message:
-          'Message',
-      });
-      if (result.action === Share.sharedAction) {
-        if (result.activityType) {
-          // shared with activity type of result.activityType
-        } else {
-          // shared
-        }
-      } else if (result.action === Share.dismissedAction) {
-        // dismissed
+  async function onShare() {
+    const userAgent = navigator.userAgent.toLowerCase();
+
+    if (userAgent.match(/mobile|iphone|android/)) {
+      // User is on a phone
+      const shareData = {
+        title: 'MDN',
+        text: 'Learn web development on MDN!',
+        url: 'https://developer.mozilla.org',
+      };
+
+      try {
+        await navigator.share(shareData);
+        console.log('Shared successfully');
+      } catch (error) {
+        console.error('Error sharing:', error);
       }
-    } catch (error) {
-      console.log(error.message);
+    } else {
+      // User is on a computer
+      setShareClicked(true);
     }
-  };
-
-
+  }
 
   useEffect(() => {
     getQuestion();
@@ -327,6 +345,7 @@ const Popup = ({ isOpen, onClose, analyzeOpen }) => {
 
   return (
     <Modal isOpen={isOpen} onRequestClose={onClose} style={{ content: modalContentStyle }}>
+      {shareClicked && <div class="box">This is the box</div>}
       <GrClose class="closeButtonStyle" size={25} onClick={onClose}/>
       <div class="most-all">
         <h1 class="topHeader">NEXT CHALLENGE</h1>
@@ -359,22 +378,22 @@ const Popup = ({ isOpen, onClose, analyzeOpen }) => {
         <div class="statsContainer">
           <div class="statContainer">
             <p class="h1Style">{Played}</p>
-            <p>Played</p>
+            <p class="pStyle">Played</p>
           </div>
 
           <div class="statContainer">
             <p class="h1Style">{AvrgPO}%</p>
-            <p>Average Off By</p>
+            <p class="pStyle">Average Off By</p>
           </div>
 
           <div class="statContainer">
             <p class="h1Style">{Streak}</p>
-            <p>Streak</p>
+            <p class="pStyle">Streak</p>
           </div>
 
           <div class="statContainer">
             <p class="h1Style">{OffBy}%</p>
-            <p>Closest Guess Off</p>
+            <p class="pStyle">Closest Guess Off</p>
           </div>
         </div>
       </div>

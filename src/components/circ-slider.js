@@ -22,7 +22,7 @@ function getCurrentFormattedDate() {
 }
 
 
-export const CircularSlider = ({ onShowPercentChange, submitted, difference, setSubmitted}) => {
+export const CircularSlider = ({ onShowPercentChange, submitted, difference, setSubmitted, setShowOffBy}) => {
 
   const radius = 80;
   const knobRadius = 10;
@@ -37,8 +37,7 @@ export const CircularSlider = ({ onShowPercentChange, submitted, difference, set
   const [knob_dash_offset, setKnobDashOffest] = useState(804);
   const [show_percent, setShowPercent] = useState(0);
   const [dcPercent, setDcPercent] = useState(0);
-  const [strokeDashoffsetNew, setSDO] = useState(0);
-
+  const [strokeDashoffsetNew, setSDO] = useState(804);
 
   async function getDC() {
     // Getting today's Date
@@ -78,10 +77,13 @@ export const CircularSlider = ({ onShowPercentChange, submitted, difference, set
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
+        console.log("should i be in here??")
         const { dc_question_percent } = docSnap.data();
 
         setDcPercent(dc_question_percent);
-        setSDO(804-(484*(dc_question_percent/100)));
+        if(submitted){
+          setSDO(804-(484*(dc_question_percent/100)));
+        }
       } else {
         console.log("No such document!");
       }
@@ -94,12 +96,6 @@ export const CircularSlider = ({ onShowPercentChange, submitted, difference, set
   const [number, setNumber] = useState(0);
 
   const svgRef = useRef(null);
-  
-  const knobDashOffsetAnimation = useSpring({
-    from: { strokeDashoffset: 804 },
-    to: { strokeDashoffset: submitted ? strokeDashoffsetNew : 804 }, //change 600 to percent that you bring in my daily_challenge
-    config: { duration: 3000 }, // Adjust the duration as needed
-  });
 
   const handleDragStart = (event) => {
     event.preventDefault();
@@ -170,13 +166,22 @@ export const CircularSlider = ({ onShowPercentChange, submitted, difference, set
   };
 
   useEffect(() => {
+    console.log("here", strokeDashoffsetNew);
     //NEW
     if (submitted) {
+      console.log("HMMMMMMM", strokeDashoffsetNew);
       const interval = setInterval(() => {
         if (number < dcPercent) {
           setNumber(prevNumber => prevNumber + 1);
+          setSDO(strokeDashoffsetNew-4.84);
+          console.log(strokeDashoffsetNew);
+          
         }
-      }, 30);
+        if(number === (dcPercent-1)){
+          setShowOffBy(true);
+          //when the animation is almost done
+        }
+      }, 70);
     
 
     return () => clearInterval(interval);
@@ -292,7 +297,8 @@ export const CircularSlider = ({ onShowPercentChange, submitted, difference, set
         {submitted && (
           <AnimatedPath
             strokeDasharray="804.361083984375"
-            strokeDashoffset={knobDashOffsetAnimation.strokeDashoffset}
+            //strokeDashoffset={knobDashOffsetAnimation.strokeDashoffset}
+            strokeDashoffset={strokeDashoffsetNew}
             style={pathStyleTwo}
             d={`M ${center}, ${center}
               m 0, -${radius+20}

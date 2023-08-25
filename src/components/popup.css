@@ -96,3 +96,20 @@
     font-size: 2rem;
     margin-top: 0;
 }
+
+.modalContentStyle{
+    width: 35%;
+    margin: 0 auto;
+}
+
+@media screen and (max-width: 400px) {
+    .statsContainer{
+        width: 100%;
+    }
+    .h1Style{
+        font-size: 1.6rem;
+    }
+    .pStyle{
+        font-size: .7rem;
+    }
+}
