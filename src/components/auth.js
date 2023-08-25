@@ -1,5 +1,7 @@
 import { auth, googleProvider } from '../config/firebase'
 import { createUserWithEmailAndPassword, signInWithPopup, signOut } from 'firebase/auth'
+import { fetchSignInMethodsForEmail } from 'firebase/auth';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import "../components/auth.css";
@@ -11,13 +13,23 @@ export const Auth = () => {
     const [password, setPassword] = useState("");
 
     const signIn = async () => {
-        try{
-        await createUserWithEmailAndPassword(auth, email, password);
-        navigate("/daily_challenge");
-        } catch(err) {
-            console.error(err);
+        try {
+          const signInMethods = await fetchSignInMethodsForEmail(auth, email);
+          if (signInMethods.length > 0) {
+            // Email address already in use
+            // Perform login instead of creating a new account
+            await signInWithEmailAndPassword(auth, email, password);
+          } else {
+            // Email address not in use, create a new account
+            await createUserWithEmailAndPassword(auth, email, password);
+          }
+          navigate("/daily_challenge");
+        } catch (err) {
+          console.error(err);
+          console.log("NAHHHH");
         }
-    };
+      };
+   
 
     const signInWithGoogle = async () => {
         try{

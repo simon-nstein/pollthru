@@ -43,6 +43,7 @@ const Popup = ({ isOpen, onClose, analyzeOpen }) => {
   const [Option_1, setOpt1] = useState("");
   const [Option_2, setOpt2] = useState("");
   const [Question, setQ] = useState("");
+  const [DP_Share_Message, setDPSM] = useState("");
 
   const [Played, setPlayed] = useState(0);
   const [AvrgPO, setAvrgPO] = useState(0);
@@ -50,6 +51,8 @@ const Popup = ({ isOpen, onClose, analyzeOpen }) => {
   const [OffBy, setOffBy] = useState(0);
 
   const [shareClicked, setShareClicked] = useState(false);
+
+  const [dp_pick, setDPpick] = useState("");
 
   //const [pollPick, setPollPick] = useState(null);
 
@@ -119,10 +122,13 @@ const Popup = ({ isOpen, onClose, analyzeOpen }) => {
         const { Option_1 } = docSnap.data();
         const { Option_2 } = docSnap.data();
         const { Question } = docSnap.data();
+        const { dp_share_message } = docSnap.data();
 
         setOpt1(Option_1);
         setOpt2(Option_2);
         setQ(Question);
+        setDPSM(dp_share_message)
+        
       } else {
         console.log("No such document!");
       }
@@ -280,9 +286,9 @@ const Popup = ({ isOpen, onClose, analyzeOpen }) => {
     if (userAgent.match(/mobile|iphone|android/)) {
       // User is on a phone
       const shareData = {
-        title: 'MDN',
-        text: 'Learn web development on MDN!',
-        url: 'https://developer.mozilla.org',
+        title: 'PollThru',
+        text: `${DP_Share_Message} Simon's chose ${dp_pick}% 🫢. \n What do you think?`,
+        url: 'https://developer.mozilla.org', //change
       };
 
       try {
@@ -293,6 +299,8 @@ const Popup = ({ isOpen, onClose, analyzeOpen }) => {
       }
     } else {
       // User is on a computer
+      let message = `${DP_Share_Message} Simon's chose ${dp_pick}% 🫢. \n What do you think? PollThru.com`;
+      navigator.clipboard.writeText(message);
       setShareClicked(true);
     }
   }
@@ -311,10 +319,15 @@ const Popup = ({ isOpen, onClose, analyzeOpen }) => {
     if( button1Color === "#8848F5" || button2Color === "#8848F5" ){
 
         let pick;
+        let whichOption;
         if( button1Color === "#8848F5"){
             pick = Option_1;
+            whichOption = 1;
+            setDPpick(pick);
         } else{
             pick = Option_2;
+            whichOption = 2;
+            setDPpick(pick);
         }
 
         event.preventDefault();
@@ -330,6 +343,23 @@ const Popup = ({ isOpen, onClose, analyzeOpen }) => {
                 dp_pick: pick,
             });
 
+            //GETTING CURRENT NUMBERS FOR OPTIONS
+            const docRef = doc(db, "daily_poll_all", formattedDate);
+            const docSnap = await getDoc(docRef);
+            if (docSnap.exists()) {
+              const { Option_1 } = docSnap.data();
+              const { Option_2 } = docSnap.data();
+              const dcDocRefTwo = doc(db, "daily_poll_all", formattedDate);
+              if( whichOption === 1){
+                await updateDoc(dcDocRefTwo, {
+                  Option_1: Option_1 + 1,
+                });
+              } else{
+                await updateDoc(dcDocRefTwo, {
+                  Option_2: Option_2 + 1,
+                });
+              }
+            };
             setSubmitted(true);
         };
     }

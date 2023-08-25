@@ -309,8 +309,8 @@ export const CircularSlider = ({ onShowPercentChange, submitted, difference, set
           x={center}
           y={center+10}
           textAnchor="middle"
-          fill="black"
-          style={{fontSize: '2rem'}}
+          fill="#8848F5"
+          style={{fontSize: '2rem', fontWeight: 'bold', }}
         >
           {`${show_percent}%`}
         </Text>

@@ -27,13 +27,14 @@ export const DC = () => {
   const navigate = useNavigate();
   const [dcQuestion, setDcQuestion] = useState("");
   const [dcPercent, setDcPercent] = useState(0);
+  const [dcMessage, setDcMessage] = useState("");
   const [difference, setDifference] = useState(0);
   const [submitted, setSubmitted] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   //new
   const [parentShowPercent, setParentShowPercent] = useState(0);
-  const [parentShowOffBy, setParentShowOffBy] = useState(0);
+  const [parentShowOffBy, setParentShowOffBy] = useState(false);
 
   const [shareClicked, setShareClicked] = useState(false);
 
@@ -62,9 +63,11 @@ export const DC = () => {
       if (docSnap.exists()) {
         const { dc_question } = docSnap.data();
         const { dc_question_percent } = docSnap.data();
+        const { dc_share_message } = docSnap.data();
 
         setDcQuestion(dc_question);
         setDcPercent(dc_question_percent);
+        setDcMessage(dc_share_message);
       } else {
         console.log("No such document!");
       }
@@ -145,8 +148,8 @@ export const DC = () => {
     if (userAgent.match(/mobile|iphone|android/)) {
       // User is on a phone
       const shareData = {
-        title: 'MDN',
-        text: 'Learn web development on MDN!',
+        title: 'PollThru',
+        text: `${dcMessage} Simon's guess was ${difference}% off 😎\nThink you can do better?`,
         url: 'https://developer.mozilla.org',
       };
 
@@ -158,8 +161,8 @@ export const DC = () => {
       }
     } else {
       // User is on a computer
-      let message = "why are you blue?";
-      navigator.clipboard.writeText(message)
+      let message = `${dcMessage} Simon's guess was ${difference}% off 😎\nThink you can do better? PollThru.com`;
+      navigator.clipboard.writeText(message);
       setShareClicked(true);
     }
   }
