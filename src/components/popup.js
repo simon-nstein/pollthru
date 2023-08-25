@@ -259,16 +259,16 @@ const Popup = ({ isOpen, onClose, analyzeOpen }) => {
             setButton2Color("#8848F5");
             setButton2TextColor("white");
 
-          } else{
-            setButton1Color("white");
-            setButton2Color("white");
-
-            setButton1TextColor("black");
-            setButton1TextColor("black");
           }
+        } else{
+          setButton1Color("white");
+          setButton2Color("white");
+
+          setButton1TextColor("black");
+          setButton1TextColor("black");
         }
       } else {
-        //setPollPick(null);
+        //if they haven't done either DC or DP today
         setButton1Color("white");
         setButton2Color("whtie");
 

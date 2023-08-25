@@ -139,7 +139,7 @@ export const DC = () => {
 
     setTimeout(() => {
         setModalIsOpen(true);
-      }, 11000);
+      }, 9000);
   }
 
   async function onShare() {
