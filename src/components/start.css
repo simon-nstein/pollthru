@@ -28,6 +28,7 @@
     border-radius: 28px;
     padding: 7px 95px;
     font-weight: bold;
+    color: black;
   }
   
   @media screen and (max-width: 500px) {
