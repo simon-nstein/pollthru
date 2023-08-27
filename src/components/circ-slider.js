@@ -1,9 +1,9 @@
 //circ-slider.js
 import React, { useState, useRef, useEffect } from 'react';
 import Text from 'react-svg-text';
-import { useSpring, animated } from 'react-spring';
+import { animated } from 'react-spring';
 import { getAuth } from "firebase/auth";
-import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 import { db } from '../config/firebase';
 import { useNavigate } from 'react-router-dom';
 
@@ -31,7 +31,6 @@ export const CircularSlider = ({ onShowPercentChange, submitted, difference, set
   const center = radius + 10;
   const knobOffset = -10; // Adjust this value to push the knob outwards
 
-  const [percentage, setPercentage] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [isDraggingMobile, setIsDraggingMobile] = useState(false);
   
@@ -60,7 +59,6 @@ export const CircularSlider = ({ onShowPercentChange, submitted, difference, set
         setShowPercent(dc_percent);
         const { percent_off } = docSnap.data();
         setSubmitted(true);
-        //submitted = true; //this does not work
       } else {
         //if they haven't done Daily Challenge yet
       }
@@ -112,14 +110,8 @@ export const CircularSlider = ({ onShowPercentChange, submitted, difference, set
     const x = event.clientX - svgRect.left;
     const y = event.clientY - svgRect.top;
     const newAngle = Math.atan2(y - center, x - center) * (180 / Math.PI);
-    const distance = Math.sqrt((x - center) ** 2 + (y - center) ** 2);
-    const maxDistance = radius - knobRadius;
 
     setKnobAngle(newAngle);
-
-    const clampedDistance = Math.min(maxDistance, Math.max(0, distance));
-    const newPercentage = (clampedDistance / maxDistance) * 100;
-    setPercentage(newPercentage);
 
     const angleToCenter = ((newAngle + 90) + 360) % 360;
     const percentageFromAngle = angleToCenter / 360;
@@ -146,14 +138,8 @@ export const CircularSlider = ({ onShowPercentChange, submitted, difference, set
     const x = event.touches[0].clientX - svgRect.left;
     const y = event.touches[0].clientY - svgRect.top;
     const newAngle = Math.atan2(y - center, x - center) * (180 / Math.PI);
-    const distance = Math.sqrt((x - center) ** 2 + (y - center) ** 2);
-    const maxDistance = radius - knobRadius;
 
     setKnobAngle(newAngle);
-
-    const clampedDistance = Math.min(maxDistance, Math.max(0, distance));
-    const newPercentage = (clampedDistance / maxDistance) * 100;
-    setPercentage(newPercentage);
 
     const angleToCenter = ((newAngle + 90) + 360) % 360;
     const percentageFromAngle = angleToCenter / 360;

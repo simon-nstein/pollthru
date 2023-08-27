@@ -243,6 +243,7 @@ const Popup = ({ isOpen, onClose, analyzeOpen }) => {
         const docRefTwo = doc(db, "daily_poll", formattedDate);
         const docSnapTwo = await getDoc(docRefTwo);
         if (docSnapTwo.exists()) {
+          setSubmitted(true);
           const { Option_1 } = docSnapTwo.data();
           if( Option_1 === dp_pick ){
             //setPollPick("option_1");

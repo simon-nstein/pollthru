@@ -30,13 +30,13 @@ const NavBar = () => {
       <div className="navbar__icons">
         <AiOutlineQuestionCircle size={25} className="navbar__icon" onClick={() => setQuestionOpen(true)} />
         <BsBarChart size={25} className="navbar__icon" onClick={() => setAnalyzeOpen(true)} />
-        <FiLogOut size={25} className="navbar__icon" onClick={() => setAnalyzeOpen(true)}/>
+        <FiLogOut size={25} className="navbar__icon" onClick={logout}/>
       </div>
       <div className="navbar__line"></div>
 
       {/* <Popup isOpen={analyzeOpen} onClose={() => setAnalyzeOpen(false)}/> */}
       <Popup isOpen={analyzeOpen} onClose={() => setAnalyzeOpen(false)} analyzeOpen={analyzeOpen} setAnalyzeOpen={setAnalyzeOpen} />
-      <HowTo isOpen={questionOpen} onClose={logout}/>
+      <HowTo isOpen={questionOpen} onClose={() => setQuestionOpen(false)}/>
     </div>
   );
 };

@@ -15,9 +15,16 @@ const HowTo = ({ isOpen, onClose }) => {
         };
 
         const modalContentStyle = {
-        width: "40%",
-        margin: "0 auto",
+          width: "35%",
+          margin: "0 auto",
         };
+        
+        // Add media query for screens with width below 400px
+        if (window.innerWidth < 500) {
+          modalContentStyle.width = "82%";
+          modalContentStyle.inset = "28px 14px";
+        }
+        
 return (
     <Modal isOpen={isOpen} onRequestClose={onClose} style={{ content: modalContentStyle }}>
       <button style={closeButtonStyle} onClick={onClose}> <GrClose /> </button>

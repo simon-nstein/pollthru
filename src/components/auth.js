@@ -1,5 +1,5 @@
 import { auth, googleProvider } from '../config/firebase'
-import { createUserWithEmailAndPassword, signInWithPopup, signOut } from 'firebase/auth'
+import { createUserWithEmailAndPassword, signInWithPopup, getAdditionalUserInfo } from 'firebase/auth'
 import { fetchSignInMethodsForEmail } from 'firebase/auth';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { useState } from 'react';
@@ -26,18 +26,13 @@ export const Auth = () => {
           navigate("/daily_challenge");
         } catch (err) {
           console.error(err);
-          console.log("NAHHHH");
         }
       };
    
 
     const signInWithGoogle = async () => {
-        try{
-        await signInWithPopup(auth, googleProvider);
-        navigate("/daily_challenge");
-        } catch(err) {
-            console.error(err);
-        }
+      await signInWithPopup(auth, googleProvider);
+      navigate("/daily_challenge");
     };
 
     return (

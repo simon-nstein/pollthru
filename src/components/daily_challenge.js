@@ -1,14 +1,17 @@
 import { useState, useEffect } from "react";
 import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import { db } from '../config/firebase';
 import { getAuth } from "firebase/auth";
 import Popup from "../components/popup";
 import { BsShare } from 'react-icons/bs';
 import NavBar from '../components/nav';
 import { useNavigate } from 'react-router-dom';
+import { CircularSlider } from '../components/circ-slider';
+import HowTo from "./how_to";
 
 import "../components/daily_challenge.css";
-import { CircularSlider } from '../components/circ-slider';
+import { Auth } from '../components/auth';
 
 const auth = getAuth();
 
@@ -37,6 +40,29 @@ export const DC = () => {
   const [parentShowOffBy, setParentShowOffBy] = useState(false);
 
   const [shareClicked, setShareClicked] = useState(false);
+
+  const [showHowTo, setShowHowTo] = useState(false);
+
+  async function ShowHowTo() {
+    //gets the number of days the user has played the game
+    const user = auth.currentUser;
+
+    if (user) {
+      const userId = user.uid;
+      const collectionRef = collection(db, "entries", userId, "date");
+      const querySnapshot = await getDocs(collectionRef);
+      const count = querySnapshot.size;
+      console.log(count);
+
+      if( count === 0 ){
+        console.log("IN");
+        setShowHowTo(true);
+      } else{
+        console.log("IN2");
+        setShowHowTo(false);
+      }
+    }
+  }
 
   const handleShowPercentChange = (newShowPercent) => {
     // Update the show_percent value in the parent component's state
@@ -100,6 +126,7 @@ export const DC = () => {
   }
 
   useEffect(() => {
+    ShowHowTo();
     getQuestion();
     getOffBy();
   }, []);
@@ -170,6 +197,7 @@ export const DC = () => {
 
   return (
     <div >
+      <HowTo isOpen={showHowTo} onClose={() => setShowHowTo(false)}/>
       {shareClicked && <div class="copiedClipboard">Copied Results to Clipboard</div>}
       <NavBar />
       <div class="main-dc-div">

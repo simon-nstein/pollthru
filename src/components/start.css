@@ -1,40 +1,37 @@
 .mainDiv {
     font-family: 'Poppins';
     display: flex;
-    height: 100vh;
-    margin-top: 50px;
+    justify-content: center;
     width: 35%;
     flex-direction: column;
     align-items: center;
-    margin: 0 auto; /* Added this line */
+    margin: 0 auto;
+    transform: translate(0, 50%);
+    /*padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);*/
   }
   
   .heading{
     font-size: 3rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0;
   }
   
   .descript{
-    font-size: 2rem;
+    font-size: 1.5rem;
     margin-bottom: 75px;
-    margin-top: 13px;
+    margin-top: 0;
   }
   
   .btn{
     font-size: 1.7rem;
     border: 2px solid black;
-    border-radius: 27px;
-    padding: 4px;
     background: rgba(255, 255, 255, 0);
-    width: 39%;
-    color: black;
+    border-radius: 28px;
+    padding: 7px 95px;
+    font-weight: bold;
   }
   
   @media screen and (max-width: 500px) {
     .mainDiv {
       width: 85%;
-    }
-    .btn{
-      width: 75%;
     }
   }
