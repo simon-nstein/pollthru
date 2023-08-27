@@ -1,0 +1,75 @@
+[debug] [2023-08-27T04:11:38.252Z] ----------------------------------------------------------------------
+[debug] [2023-08-27T04:11:38.253Z] Command:       /usr/local/bin/node /Users/simonneuwirth-stein/.npm/_npx/ba4f1959e38407b5/node_modules/.bin/firebase deploy --only hosting --project pollthru --debug
+[debug] [2023-08-27T04:11:38.254Z] CLI Version:   12.5.2
+[debug] [2023-08-27T04:11:38.254Z] Platform:      darwin
+[debug] [2023-08-27T04:11:38.254Z] Node Version:  v18.17.1
+[debug] [2023-08-27T04:11:38.255Z] Time:          Sat Aug 26 2023 21:11:38 GMT-0700 (Pacific Daylight Time)
+[debug] [2023-08-27T04:11:38.255Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2023-08-27T04:11:38.288Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-08-27T04:11:38.289Z] > authorizing via signed-in user (spstein@willamette.edu)
+[debug] [2023-08-27T04:11:38.289Z] [iam] checking project pollthru for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2023-08-27T04:11:38.290Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/pollthru:testIamPermissions [none]
+[debug] [2023-08-27T04:11:38.290Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/pollthru:testIamPermissions x-goog-quota-user=projects/pollthru
+[debug] [2023-08-27T04:11:38.290Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/pollthru:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2023-08-27T04:11:38.520Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/pollthru:testIamPermissions 200
+[debug] [2023-08-27T04:11:38.520Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/pollthru:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2023-08-27T04:11:38.521Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/pollthru [none]
+[debug] [2023-08-27T04:11:38.755Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/pollthru 200
+[debug] [2023-08-27T04:11:38.756Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/pollthru {"projectId":"pollthru","projectNumber":"502995418149","displayName":"PollThru","name":"projects/pollthru","resources":{"hostingSite":"pollthru"},"state":"ACTIVE","etag":"1_300f1b7f-6b2c-4ea1-94c6-18c69d7d124b"}
+[info] 
+[info] === Deploying to 'pollthru'...
+[info] 
+[info] i  deploying hosting 
+[debug] [2023-08-27T04:11:38.762Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/pollthru/versions [none]
+[debug] [2023-08-27T04:11:38.762Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/pollthru/versions {"status":"CREATED","labels":{"deployment-tool":"cli-firebase"}}
+[debug] [2023-08-27T04:11:39.509Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/pollthru/versions 200
+[debug] [2023-08-27T04:11:39.509Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/pollthru/versions {"name":"projects/502995418149/sites/pollthru/versions/a056bb4ca631e19a","status":"CREATED","config":{},"labels":{"deployment-tool":"cli-firebase"}}
+[info] i  hosting[pollthru]: beginning deploy... 
+[info] i  hosting[pollthru]: found 15 files in build 
+[debug] [2023-08-27T04:11:39.515Z] [hosting] uploading with 200 concurrency
+[debug] [2023-08-27T04:11:39.517Z] [hosting] hash cache [YnVpbGQ] stored for 15 files
+[debug] [2023-08-27T04:11:39.517Z] [hosting][hash queue][FINAL] {"max":0,"min":0,"avg":0,"active":0,"complete":15,"success":15,"errored":0,"retried":0,"total":15,"elapsed":2}
+[debug] [2023-08-27T04:11:39.518Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/502995418149/sites/pollthru/versions/a056bb4ca631e19a:populateFiles [none]
+[debug] [2023-08-27T04:11:39.518Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/502995418149/sites/pollthru/versions/a056bb4ca631e19a:populateFiles {"files":{"/404.html":"05cbc6f94d7a69ce2e29646eab13be2c884e61ba93e3094df5028866876d18b3","/asset-manifest.json":"f045bcd0d3d7cbb7def81ed4df32b4da148a4f50f540996fe779f8da47b12ab9","/favicon.ico":"b72f7455f00e4e58792d2bca892abb068e2213838c0316d6b7a0d6d16acd1955","/index.html":"a7cecab1cfce3e675c13eacf6325aefd2b18d016d756af6e0a8445cf4669db72","/logo192.png":"caff018b7f1e8fd481eb1c50d75b0ef236bcd5078b1d15c8bb348453fee30293","/logo512.png":"191fc21360b4ccfb1cda11a1efb97f489ed22672ca83f4064316802bbfdd750e","/manifest.json":"341d52628782f8ac9290bbfc43298afccb47b7cbfcee146ae30cf0f46bc30900","/robots.txt":"391d14b3c2f8c9143a27a28c7399585142228d4d1bdbe2c87ac946de411fa9a2","/static/css/main.377406f3.css":"53948eb3a98d27dd74dbd6521b10755616250e291ef08c1fedf58e8d799c1eb4","/static/css/main.377406f3.css.map":"b002b64882d31e4bbec5b5ce63fd0905a438d2fc6cbd186e930a9dbfe6bcc998","/static/js/787.850aa56b.chunk.js":"c08abf74aae8647a340fc12acc96f766a09b53b387235c0f0e53ee62338d334b","/static/js/787.850aa56b.chunk.js.map":"bf6c60b2dcc6b4c04592b1f4dccb4bb454fa3b7599e0b80346b9d59d1d781b2e","/static/js/main.58d520ce.js":"01c14bed801296c5a2cdba18c64903343e3d5ba74824208395ac5cb9fd4aeb5b","/static/js/main.58d520ce.js.LICENSE.txt":"a9bff645f985d4efd9dc9a96b3d1807e7b5c37bbc14dd58f66a51ca253308da9","/static/js/main.58d520ce.js.map":"6f3d75f4b88ef28986df020840dae774bf12d41d722087bf3027e7ce7956f110"}}
+[debug] [2023-08-27T04:11:40.066Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/502995418149/sites/pollthru/versions/a056bb4ca631e19a:populateFiles 200
+[debug] [2023-08-27T04:11:40.067Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/502995418149/sites/pollthru/versions/a056bb4ca631e19a:populateFiles {"uploadUrl":"https://upload-firebasehosting.googleapis.com/upload/sites/pollthru/versions/a056bb4ca631e19a/files"}
+[debug] [2023-08-27T04:11:40.067Z] [hosting][populate queue][FINAL] {"max":551,"min":551,"avg":551,"active":0,"complete":1,"success":1,"errored":0,"retried":0,"total":1,"elapsed":551}
+[debug] [2023-08-27T04:11:40.067Z] [hosting] uploads queued: 0
+[debug] [2023-08-27T04:11:40.068Z] [hosting][upload queue][FINAL] {"max":0,"min":9999999999,"avg":0,"active":0,"complete":0,"success":0,"errored":0,"retried":0,"total":0,"elapsed":1693109500068}
+[info] i  hosting: upload complete 
+[info] ✔  hosting[pollthru]: file upload complete 
+[debug] [2023-08-27T04:11:40.068Z] [hosting] deploy completed after 558ms
+[debug] [2023-08-27T04:11:40.068Z] [
+  {
+    "config": {
+      "public": "build",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "site": "pollthru"
+    },
+    "version": "projects/502995418149/sites/pollthru/versions/a056bb4ca631e19a"
+  }
+]
+[info] i  hosting[pollthru]: finalizing version... 
+[debug] [2023-08-27T04:11:40.070Z] >>> [apiv2][query] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/pollthru/versions/a056bb4ca631e19a updateMask=status%2Cconfig
+[debug] [2023-08-27T04:11:40.071Z] >>> [apiv2][body] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/pollthru/versions/a056bb4ca631e19a {"status":"FINALIZED","config":{}}
+[debug] [2023-08-27T04:11:40.523Z] <<< [apiv2][status] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/pollthru/versions/a056bb4ca631e19a 200
+[debug] [2023-08-27T04:11:40.524Z] <<< [apiv2][body] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/pollthru/versions/a056bb4ca631e19a {"name":"projects/502995418149/sites/pollthru/versions/a056bb4ca631e19a","status":"FINALIZED","config":{},"labels":{"deployment-tool":"cli-firebase"},"createTime":"2023-08-27T04:11:39.243233Z","createUser":{"email":"spstein@willamette.edu"},"finalizeTime":"2023-08-27T04:11:40.526026Z","finalizeUser":{"email":"spstein@willamette.edu"}}
+[debug] [2023-08-27T04:11:40.524Z] [hosting] finalized version for pollthru:[object Object]
+[info] ✔  hosting[pollthru]: version finalized 
+[info] i  hosting[pollthru]: releasing new version... 
+[debug] [2023-08-27T04:11:40.525Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/pollthru/channels/live/releases versionName=projects%2F502995418149%2Fsites%2Fpollthru%2Fversions%2Fa056bb4ca631e19a
+[debug] [2023-08-27T04:11:40.525Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/pollthru/channels/live/releases {}
+[debug] [2023-08-27T04:11:41.091Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/pollthru/channels/live/releases 200
+[debug] [2023-08-27T04:11:41.091Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/pollthru/channels/live/releases {"name":"projects/502995418149/sites/pollthru/channels/live/releases/1693109500476000","version":{"name":"projects/502995418149/sites/pollthru/versions/a056bb4ca631e19a","status":"FINALIZED","config":{},"labels":{"deployment-tool":"cli-firebase"},"createTime":"2023-08-27T04:11:39.243233Z","createUser":{"email":"spstein@willamette.edu","imageUrl":"https://lh3.googleusercontent.com/a/AAcHTtdACqy7hT2_oHkRtXcQEUMqQpnp1Hli4mn2W10u8Ps3=mo"},"finalizeTime":"2023-08-27T04:11:40.526026Z","finalizeUser":{"email":"spstein@willamette.edu","imageUrl":"https://lh3.googleusercontent.com/a/AAcHTtdACqy7hT2_oHkRtXcQEUMqQpnp1Hli4mn2W10u8Ps3=mo"}},"type":"DEPLOY","releaseTime":"2023-08-27T04:11:40.476Z","releaseUser":{"email":"spstein@willamette.edu","imageUrl":"https://lh3.googleusercontent.com/a/AAcHTtdACqy7hT2_oHkRtXcQEUMqQpnp1Hli4mn2W10u8Ps3=mo"}}
+[debug] [2023-08-27T04:11:41.091Z] [hosting] release: {"name":"projects/502995418149/sites/pollthru/channels/live/releases/1693109500476000","version":{"name":"projects/502995418149/sites/pollthru/versions/a056bb4ca631e19a","status":"FINALIZED","config":{},"labels":{"deployment-tool":"cli-firebase"},"createTime":"2023-08-27T04:11:39.243233Z","createUser":{"email":"spstein@willamette.edu","imageUrl":"https://lh3.googleusercontent.com/a/AAcHTtdACqy7hT2_oHkRtXcQEUMqQpnp1Hli4mn2W10u8Ps3=mo"},"finalizeTime":"2023-08-27T04:11:40.526026Z","finalizeUser":{"email":"spstein@willamette.edu","imageUrl":"https://lh3.googleusercontent.com/a/AAcHTtdACqy7hT2_oHkRtXcQEUMqQpnp1Hli4mn2W10u8Ps3=mo"}},"type":"DEPLOY","releaseTime":"2023-08-27T04:11:40.476Z","releaseUser":{"email":"spstein@willamette.edu","imageUrl":"https://lh3.googleusercontent.com/a/AAcHTtdACqy7hT2_oHkRtXcQEUMqQpnp1Hli4mn2W10u8Ps3=mo"}}
+[info] ✔  hosting[pollthru]: release complete 
+[info] 
+[info] ✔  Deploy complete! 
+[info] 
+[info] Project Console: https://console.firebase.google.com/project/pollthru/overview
+[info] Hosting URL: https://pollthru.web.app
