@@ -243,9 +243,9 @@ const Popup = ({ isOpen, onClose, analyzeOpen }) => {
         const docRefTwo = doc(db, "daily_poll", formattedDate);
         const docSnapTwo = await getDoc(docRefTwo);
         if (docSnapTwo.exists()) {
-          setSubmitted(true);
           const { Option_1 } = docSnapTwo.data();
           if( Option_1 === dp_pick ){
+            setSubmitted(true);
             //setPollPick("option_1");
             setButton1Color("#8848F5");
             setButton2Color("white");
@@ -253,6 +253,7 @@ const Popup = ({ isOpen, onClose, analyzeOpen }) => {
             setButton1TextColor("white");
             setButton2TextColor("black");
           } if( Option_2 === dp_pick ){
+            setSubmitted(true);
             //setPollPick("option_2");
             setButton1Color("white");
             setButton1TextColor("black");
@@ -262,6 +263,7 @@ const Popup = ({ isOpen, onClose, analyzeOpen }) => {
 
           }
         } else{
+          setSubmitted(false);
           setButton1Color("white");
           setButton2Color("white");
 
