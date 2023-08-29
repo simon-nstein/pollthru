@@ -374,10 +374,20 @@ const Popup = ({ isOpen, onClose, analyzeOpen }) => {
     );
   };
 
+  const closeButtonStyle = {
+    position: "absolute",
+    top: "10px",
+    right: "10px",
+    background: "none",
+    border: "none",
+    fontSize: "20px",
+    cursor: "pointer",
+    };
+
   return (
     <Modal isOpen={isOpen} onRequestClose={onClose} style={{ content: modalContentStyle }}>
       {shareClicked && <div class="copiedClipboard">Copied Results to Clipboard</div>}
-      <GrClose class="closeButtonStyle" size={25} onClick={onClose}/>
+      <button style={closeButtonStyle} onClick={onClose} size={25}> <GrClose /> </button>
       <div class="most-all">
         <h1 class="topHeader">NEXT CHALLENGE</h1>
         {/* countdown */}
