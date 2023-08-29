@@ -37,9 +37,9 @@ return (
     <Modal isOpen={isOpen} onRequestClose={onClose} style={{ content: modalContentStyle }}>
       <button style={closeButtonStyle} onClick={onClose}> <GrClose /> </button>
       <h1>How to Play</h1>
-      <p>1. Use the slider to guess what percent of people chose an answer on yesterday's poll.</p>
+      <p>1. Drag the slider to guess the percentage of people who selected an answer on yesterday's poll.</p>
       <img src={myGif} alt="my-gif" style={ gifStyle }/>
-      <p>2. Provide your input in the daily poll, which will be part of tomorrow's daily challenge.</p>
+      <p>2. Participate in the daily poll, which will be included in tomorrow's challenge.</p>
       <p>3. Come back tomorrow! A new challenge is released daily at midnight.</p>
 
     </Modal>

@@ -301,9 +301,9 @@ export const CircularSlider = ({ onShowPercentChange, submitted, difference, set
           {`${show_percent}%`}
         </Text>
       </svg>
-      {submitted && (
-      <p style={{fontSize: '2rem', marginLeft: '5px', color: '#55b051', fontWeight: '600'}}>{number}%</p>
-      )}
+        {submitted && (
+        <p style={{fontSize: '2rem', color: '#55b051', fontWeight: '600', position: 'absolute', marginLeft: '200px', zIndex: 'auto' }}>{number}%</p>
+        )}
     </div>
   );
 };

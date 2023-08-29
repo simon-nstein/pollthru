@@ -387,6 +387,7 @@ const Popup = ({ isOpen, onClose, analyzeOpen }) => {
   return (
     <Modal isOpen={isOpen} onRequestClose={onClose} style={{ content: modalContentStyle }}>
       {shareClicked && <div class="copiedClipboard">Copied Results to Clipboard</div>}
+      {submitted && <div class="copiedClipboard">We appreciate your active participation in the poll. The more people who vote, the better insights we can gather. Share with your friends so they can blah blah blah.</div>}
       <button style={closeButtonStyle} onClick={onClose} size={25}> <GrClose /> </button>
       <div class="most-all">
         <h1 class="topHeader">NEXT CHALLENGE</h1>

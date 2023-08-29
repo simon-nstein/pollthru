@@ -2,6 +2,7 @@
 
 .App {
   text-align: center;
+  padding-top: env(safe-area-inset-top);
 }
 
 .App-logo {
