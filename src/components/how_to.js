@@ -37,11 +37,10 @@ return (
     <Modal isOpen={isOpen} onRequestClose={onClose} style={{ content: modalContentStyle }}>
       <button style={closeButtonStyle} onClick={onClose}> <GrClose /> </button>
       <h1>How to Play</h1>
-      <p>1. Drag the slider to guess the percentage of people who selected an answer on yesterday's poll.</p>
+      <p>1. Drag the slider to guess the percentage (From 0% to 100%) of users who selected a specific answer on yesterday's poll.</p>
       <img src={myGif} alt="my-gif" style={ gifStyle }/>
-      <p>2. Participate in the daily poll, which will be included in tomorrow's challenge.</p>
-      <p>3. Come back tomorrow! A new challenge is released daily at midnight.</p>
-
+      <p>Share your results and compete with you friends to see who can get the closest to the correct percentage.</p>
+      <p>2. Provide your input on a daily poll, and come back tomorrow to guess what others selected.</p>
     </Modal>
   );
 };

@@ -11,7 +11,7 @@ export const Start = () => {
     return (
         <div class="mainDiv">
             <h1 class="heading">PollThru</h1>
-            <p class="descript">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <p class="descript">Test your knowledge of the broader population as you guess how other user's responded to poll questions.</p>
             <button onClick={start} class="btn"> Start</button>
         </div>
     );
