@@ -1,6 +1,7 @@
 import Modal from "react-modal";
 import { GrClose } from 'react-icons/gr';
 import myGif from '../components/sliderGIF.gif';
+import { ImShare2 } from "react-icons/im";
 
 
 const HowTo = ({ isOpen, onClose }) => {
@@ -39,8 +40,11 @@ return (
       <h1>How to Play</h1>
       <p>1. Drag the slider to guess the percentage (From 0% to 100%) of users who selected a specific answer on yesterday's poll.</p>
       <img src={myGif} alt="my-gif" style={ gifStyle }/>
-      <p>Share your results and compete with you friends to see who can get the closest to the correct percentage.</p>
-      <p>2. Provide your input on a daily poll, and come back tomorrow to guess what others selected.</p>
+      <div style={{display: "flex", alignItems: "center"}}>
+        <ImShare2 size={50} color="#8848F5"/>
+        <p style={{fontStyle: "italic", marginLeft: "15px"}}>Share your results and compete with you friends to see who can get the closest to the correct percentage.</p>
+      </div>
+      <p>2. Provide your input on a poll, and come back tomorrow to guess the percentage of users who selected a specific answer.</p>
     </Modal>
   );
 };
