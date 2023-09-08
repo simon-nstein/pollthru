@@ -12,6 +12,9 @@ import HowTo from "./how_to";
 
 import "../components/daily_challenge.css";
 import { Auth } from '../components/auth';
+import { v4 as uuidv4 } from 'uuid';
+import moment from 'moment';
+
 
 const auth = getAuth();
 
@@ -42,6 +45,50 @@ export const DC = () => {
   const [shareClicked, setShareClicked] = useState(false);
 
   const [showHowTo, setShowHowTo] = useState(false);
+
+  async function ShowHowToNEW() {
+    const userId = uuidv4();
+
+    const findUser = localStorage.getItem("player");
+    if(findUser == null){
+      console.log("user doesn't exist");
+      //user doesn't exist
+      const player = {
+        userId: userId,
+      };
+      localStorage.setItem("player", JSON.stringify(player));
+    } else{
+      //user does exist
+      console.log("user exists");
+
+      /*
+      //UPDATE
+      const currentValue = localStorage.getItem("player");
+      const userInfo = JSON.parse(currentValue);
+
+      const updatedPlayer = {
+        ...userInfo,
+        date: "7-5"
+      };
+
+      localStorage.setItem("player", JSON.stringify(updatedPlayer));
+      */
+
+    }
+
+    /*
+    
+    const retrievedObjString = localStorage.getItem("player");
+    const retrievedObj = JSON.parse(retrievedObjString);
+    console.log(retrievedObj.userId);
+
+    const dcDocRef = doc(db, "entries", "userId????", "date", "11-11-1111");
+    
+    await setDoc(dcDocRef, {
+      test: "value",
+    });
+    */
+  }
 
   async function ShowHowTo() {
     //gets the number of days the user has played the game
@@ -103,6 +150,26 @@ export const DC = () => {
     }
   }
 
+  async function getQuestionNEW() {
+    // Getting today's Date
+    const formattedDate = getCurrentFormattedDate();
+
+      const docRef = doc(db, "questions", formattedDate);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        const { dc_question } = docSnap.data();
+        const { dc_question_percent } = docSnap.data();
+        const { dc_share_message } = docSnap.data();
+
+        setDcQuestion(dc_question);
+        setDcPercent(dc_question_percent);
+        setDcMessage(dc_share_message);
+      } else {
+        console.log("No such document!");
+      }
+  }
+
   async function getOffBy() {
     // Getting today's Date
     const formattedDate = getCurrentFormattedDate();
@@ -125,10 +192,32 @@ export const DC = () => {
     }
   }
 
+  async function getOffByNEW() {
+    // Getting today's Date
+    const formattedDate = getCurrentFormattedDate();
+
+    const retrievedObjString = localStorage.getItem([formattedDate]);
+    const retrievedObj = JSON.parse(retrievedObjString);
+    if( retrievedObj !== null){
+      //If they have done Daily Challenge
+      const percent_off = retrievedObj.percent_off;
+      setDifference(percent_off);
+      //HERE!!!!
+      setSubmitted(true);
+      console.log("submitted in DC", submitted);
+    } else{
+      //if they haven't done Daily Challenge yet
+    }
+  }
+
   useEffect(() => {
-    ShowHowTo();
-    getQuestion();
-    getOffBy();
+
+    //ShowHowTo();
+    ShowHowToNEW();
+    //getQuestion();
+    getQuestionNEW();
+    //getOffBy();
+    getOffByNEW();
   }, []);
 
   useEffect(() => {
@@ -169,6 +258,89 @@ export const DC = () => {
       }, 9000);
   }
 
+  async function handleSubmitNEW(event) {
+    const value = parentShowPercent;
+    const diff = Math.abs(value - dcPercent);
+
+    const formattedDate = getCurrentFormattedDate();
+    
+    const daily_challenge = {
+      dc_percent: value,
+      percent_off: diff,
+    };
+    localStorage.setItem([formattedDate], JSON.stringify(daily_challenge));
+
+    ///////// STATS /////////
+    const findStats = localStorage.getItem("statistics");
+
+    const strk = {
+      days: 0,
+      last_day: [formattedDate],
+    }
+
+    const stats = {
+      played: 1,
+      avrg_off_by: diff,
+      streak: strk,
+      closest_guess_off: value,
+    };
+
+    if(findStats === null){
+      //FIRST DAY
+      const statistics = {
+        statistics: stats,
+      };
+
+      localStorage.setItem("statistics", JSON.stringify(statistics));
+    } else{
+      //UPDATE
+
+      const retrievedObjString = localStorage.getItem("statistics");
+      const retrievedObj = JSON.parse(retrievedObjString);
+      const played = retrievedObj.played;
+      const avrg_off_by = retrievedObj.avrg_off_by;
+      
+      
+      //streak
+      const last_day = retrievedObj.streak.last_day
+      const isYesterday = moment(last_day, 'MM-DD-YYYY').isSame(moment(formattedDate, 'MM-DD-YYYY').subtract(1, 'days'), 'day');
+      let streak = retrievedObj.streak.days;
+      if( isYesterday ){
+        //if they also played yesterday
+        streak += 1;
+      } else{
+        streak = 0;
+      }
+
+      const strkNEW = {
+        days: streak,
+        last_day: [formattedDate],
+      }
+
+      // closest guess off
+      let closest_guess_off = retrievedObj.closest_guess_off;
+      if(diff < closest_guess_off){
+        closest_guess_off = diff;
+      }
+
+      const updatedStats = {
+        played: played+1,
+        avrg_off_by: avrg_off_by + (diff - avrg_off_by) / played,
+        streak: strkNEW,
+        closest_guess_off: closest_guess_off,
+      };
+
+      localStorage.setItem("statistics", JSON.stringify(updatedStats));
+    }
+
+    setDifference(diff);
+    setSubmitted(true);
+
+    setTimeout(() => {
+        setModalIsOpen(true);
+      }, 7500);
+  }
+
   async function onShare() {
     const userAgent = navigator.userAgent.toLowerCase();
 
@@ -204,7 +376,6 @@ export const DC = () => {
         <h1 class="challenge-header">DAILY CHALLENGE</h1>
         <h1 class="dcQuestion">{dcQuestion}</h1>
         <CircularSlider onShowPercentChange={handleShowPercentChange} submitted={submitted} difference={difference} setSubmitted={setSubmitted} setShowOffBy={handleshowOffByChange}/>
-        
         {submitted ? (
           <>
             {parentShowOffBy && ( //showOffBy
@@ -219,7 +390,7 @@ export const DC = () => {
             <Popup isOpen={modalIsOpen} onClose={() => setModalIsOpen(false)} difference={difference} />
           </>
         ) : (
-          <button class="submit" onClick={handleSubmit}>Submit</button>
+          <button class="submit" onClick={handleSubmitNEW}>Submit</button>
         )}
       </div>
     </div>

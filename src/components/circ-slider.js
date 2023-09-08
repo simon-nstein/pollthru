@@ -65,6 +65,23 @@ export const CircularSlider = ({ onShowPercentChange, submitted, difference, set
     }
   }
 
+  async function getDCNEW() {
+    // Getting today's Date
+    const formattedDate = getCurrentFormattedDate();
+
+    const retrievedObjString = localStorage.getItem([formattedDate]);
+    const retrievedObj = JSON.parse(retrievedObjString);
+    if( retrievedObj !== null){
+      //If they have done Daily Challenge
+      const dc_percent = retrievedObj.dc_percent;
+      setKnobDashOffest(804-(484*(dc_percent/100)));
+      setShowPercent(dc_percent);
+      setSubmitted(true);
+    } else{
+      //if they haven't done Daily Challenge yet
+    }
+  }
+
   async function getQuestion() {
     // Getting today's Date
     const formattedDate = getCurrentFormattedDate();
@@ -89,6 +106,27 @@ export const CircularSlider = ({ onShowPercentChange, submitted, difference, set
     } else {
       console.log("User is not authenticated. Query cannot be executed.");
       navigate("/login");
+    }
+  }
+
+  async function getQuestionNEW() {
+    // Getting today's Date
+    const formattedDate = getCurrentFormattedDate();
+
+    const docRef = doc(db, "questions", formattedDate);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      const { dc_question_percent } = docSnap.data();
+      console.log("dc_question_percent", dc_question_percent);
+
+      setDcPercent(dc_question_percent);
+      console.log("dcPercentNEW!!!", dcPercent);
+      if(submitted){
+        setSDO(804-(484*(dc_question_percent/100)));
+      }
+    } else {
+      console.log("No such document!");
     }
   }
 
@@ -170,7 +208,7 @@ export const CircularSlider = ({ onShowPercentChange, submitted, difference, set
 
     return () => clearInterval(interval);
   }
-  }, [submitted, number]);
+  }, [submitted, number, dcPercent]);
 
   useEffect(() => {
     const handleMouseUp = () => {
@@ -212,8 +250,10 @@ export const CircularSlider = ({ onShowPercentChange, submitted, difference, set
   }, [isDragging, isDraggingMobile]);
 
   useEffect(() => {
-    getDC();
-    getQuestion();
+    //getDC();
+    getDCNEW();
+    //getQuestion();
+    getQuestionNEW();
     setKnobAngle(270); // Set the initial angle of the knob when the page loads
   }, []);
 

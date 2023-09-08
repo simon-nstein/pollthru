@@ -44,7 +44,7 @@ return (
         <ImShare2 size={50} color="#8848F5"/>
         <p style={{fontStyle: "italic", marginLeft: "15px"}}>Share your results and compete with you friends to see who can get the closest to the correct percentage.</p>
       </div>
-      <p>2. Provide your input on a poll, and come back tomorrow to guess the percentage of users who selected a specific answer.</p>
+      <p>2. Provide your input on a new poll, and come back tomorrow to guess the percentage of users who selected one of the poll options.</p>
     </Modal>
   );
 };
