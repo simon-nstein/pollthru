@@ -51,8 +51,10 @@ export const DC = () => {
 
     const findUser = localStorage.getItem("player");
     if(findUser == null){
-      console.log("user doesn't exist");
       //user doesn't exist
+      console.log("user doesn't exist");
+      setShowHowTo(true);
+
       const player = {
         userId: userId,
       };
@@ -60,34 +62,9 @@ export const DC = () => {
     } else{
       //user does exist
       console.log("user exists");
-
-      /*
-      //UPDATE
-      const currentValue = localStorage.getItem("player");
-      const userInfo = JSON.parse(currentValue);
-
-      const updatedPlayer = {
-        ...userInfo,
-        date: "7-5"
-      };
-
-      localStorage.setItem("player", JSON.stringify(updatedPlayer));
-      */
-
+      setShowHowTo(false);
     }
 
-    /*
-    
-    const retrievedObjString = localStorage.getItem("player");
-    const retrievedObj = JSON.parse(retrievedObjString);
-    console.log(retrievedObj.userId);
-
-    const dcDocRef = doc(db, "entries", "userId????", "date", "11-11-1111");
-    
-    await setDoc(dcDocRef, {
-      test: "value",
-    });
-    */
   }
 
   async function ShowHowTo() {
@@ -170,6 +147,26 @@ export const DC = () => {
       }
   }
 
+  async function get_question() {
+    // Getting today's Date
+    const formattedDate = getCurrentFormattedDate();
+
+      const docRef = doc(db, "daily_pulls", formattedDate);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        const { dc_q } = docSnap.data();
+        const { dc_percent } = docSnap.data();
+        const { dc_share_message } = docSnap.data();
+
+        setDcQuestion(dc_q);
+        setDcPercent(dc_percent);
+        setDcMessage(dc_share_message);
+      } else {
+        console.log("No such document!");
+      }
+  }
+
   async function getOffBy() {
     // Getting today's Date
     const formattedDate = getCurrentFormattedDate();
@@ -215,7 +212,8 @@ export const DC = () => {
     //ShowHowTo();
     ShowHowToNEW();
     //getQuestion();
-    getQuestionNEW();
+    //getQuestionNEW();
+    get_question();
     //getOffBy();
     getOffByNEW();
   }, []);
@@ -282,7 +280,7 @@ export const DC = () => {
       played: 1,
       avrg_off_by: diff,
       streak: strk,
-      closest_guess_off: value,
+      closest_guess_off: diff,
     };
 
     if(findStats === null){
@@ -302,7 +300,8 @@ export const DC = () => {
       
       
       //streak
-      const last_day = retrievedObj.streak.last_day
+      //const last_day = retrievedObj.streak.last_day
+      const last_day = retrievedObj.strk.last_day
       const isYesterday = moment(last_day, 'MM-DD-YYYY').isSame(moment(formattedDate, 'MM-DD-YYYY').subtract(1, 'days'), 'day');
       let streak = retrievedObj.streak.days;
       if( isYesterday ){
@@ -343,12 +342,17 @@ export const DC = () => {
 
   async function onShare() {
     const userAgent = navigator.userAgent.toLowerCase();
-
+    const currentDate = new Date().toLocaleDateString("en-US", {
+      month: "numeric",
+      day: "numeric"
+    });
+    const message = `${currentDate} -- ${difference}% off -- ${dcMessage}.`
+    
     if (userAgent.match(/mobile|iphone|android/)) {
       // User is on a phone
       const shareData = {
         title: 'PollThru',
-        text: `${dcMessage} Simon's guess was ${difference}% off 😎\nThink you can do better?`,
+        text: message,
         url: 'https://developer.mozilla.org',
       };
 
@@ -360,7 +364,6 @@ export const DC = () => {
       }
     } else {
       // User is on a computer
-      let message = `${dcMessage} Simon's guess was ${difference}% off 😎\nThink you can do better? PollThru.com`;
       navigator.clipboard.writeText(message);
       setShareClicked(true);
     }
@@ -373,7 +376,6 @@ export const DC = () => {
       {shareClicked && <div class="copiedClipboard">Copied Results to Clipboard</div>}
       <NavBar />
       <div class="main-dc-div">
-        <h1 class="challenge-header">DAILY CHALLENGE</h1>
         <h1 class="dcQuestion">{dcQuestion}</h1>
         <CircularSlider onShowPercentChange={handleShowPercentChange} submitted={submitted} difference={difference} setSubmitted={setSubmitted} setShowOffBy={handleshowOffByChange}/>
         {submitted ? (

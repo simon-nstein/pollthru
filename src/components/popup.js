@@ -161,6 +161,29 @@ const Popup = ({ isOpen, onClose, analyzeOpen }) => {
     }
   }
 
+  async function get_question() {
+    // Getting today's Date
+    const formattedDate = getCurrentFormattedDate();
+
+    const docRef = doc(db, "daily_pulls", formattedDate);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      const { option_1 } = docSnap.data();
+      const { option_2 } = docSnap.data();
+      const { dp_q } = docSnap.data();
+      const { dp_share_message } = docSnap.data();
+
+      setOpt1(option_1);
+      setOpt2(option_2);
+      setQ(dp_q);
+      setDPSM(dp_share_message)
+      
+    } else {
+      console.log("No such document!");
+    }
+  }
+
   async function getPlayed() {
     //gets the number of days the user has played the game
     const user = auth.currentUser;
@@ -377,14 +400,76 @@ const Popup = ({ isOpen, onClose, analyzeOpen }) => {
     }
   }
 
+  async function get_pull_pick() {
+    // Getting today's Date
+    const formattedDate = getCurrentFormattedDate();
+
+    const retrievedObjString = localStorage.getItem([formattedDate]);
+    const retrievedObj = JSON.parse(retrievedObjString);
+    
+    if( retrievedObj !== null ){
+      //if they've've done the daily poll already
+      const docRef = doc(db, "daily_poll", formattedDate);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        const { option_1 } = docSnap.data();
+        const { option_2 } = docSnap.data();
+        const dp_pick = retrievedObj.dp_pick;
+        if( dp_pick === null ){
+          //if they haven't  done the daily poll already
+          setSubmitted(false);
+          setButton1Color("white");
+          setButton2Color("white");
+
+          setButton1TextColor("black");
+          setButton1TextColor("black");
+
+          return
+          
+        }
+        if( option_1 === dp_pick ){
+          setSubmitted(true);
+          //setPollPick("option_1");
+          setButton1Color("#8848F5");
+          setButton2Color("white");
+
+          setButton1TextColor("white");
+          setButton2TextColor("black");
+        } if( option_2 === dp_pick ){
+          setSubmitted(true);
+          //setPollPick("option_2");
+          setButton1Color("white");
+          setButton1TextColor("black");
+
+          setButton2Color("#8848F5");
+          setButton2TextColor("white");
+        }
+      }
+    } else{
+      //if they haven't  done the daily poll already
+      setSubmitted(false);
+      setButton1Color("white");
+      setButton2Color("white");
+
+      setButton1TextColor("black");
+      setButton1TextColor("black");
+
+    }
+  }
+
   async function onShare() {
     const userAgent = navigator.userAgent.toLowerCase();
+    const currentDate = new Date().toLocaleDateString("en-US", {
+      month: "numeric",
+      day: "numeric"
+    });
+    const message =`${DP_Share_Message} I chose ${dp_pick}% 🫢. \n What do you think?`
 
     if (userAgent.match(/mobile|iphone|android/)) {
       // User is on a phone
       const shareData = {
         title: 'PollThru',
-        text: `${DP_Share_Message} Simon's chose ${dp_pick}% 🫢. \n What do you think?`,
+        text: message,
         url: 'https://developer.mozilla.org', //change
       };
 
@@ -396,7 +481,6 @@ const Popup = ({ isOpen, onClose, analyzeOpen }) => {
       }
     } else {
       // User is on a computer
-      let message = `${DP_Share_Message} Simon's chose ${dp_pick}% 🫢. \n What do you think? PollThru.com`;
       navigator.clipboard.writeText(message);
       setShareClicked(true);
     }
@@ -404,7 +488,8 @@ const Popup = ({ isOpen, onClose, analyzeOpen }) => {
 
   useEffect(() => {
     //getQuestion();
-    getQuestionNEW();
+    //getQuestionNEW();
+    get_question();
     
     /*
     getPlayed();
@@ -416,7 +501,8 @@ const Popup = ({ isOpen, onClose, analyzeOpen }) => {
     getStats();
 
     //getPollPick();
-    getPollPickNEW();
+    //getPollPickNEW();
+    get_pull_pick();
   }, [analyzeOpen]);
 
   const handleSubmit = async (event) => {
@@ -552,17 +638,15 @@ const Popup = ({ isOpen, onClose, analyzeOpen }) => {
         </div>
 
         <div class="poll">
-          <h1 class="pollHeading">DAILY POLL</h1>
-          <p class="italic">Your answer goes towards the daily challenge tomorrow.</p>
           <p class="question">{Question}</p>
-          <p class="italic" id="bottom-italic">There is no right answer, just share your thoughts.</p>
+          <p class="italic" id="bottom-italic">There is no right answer, just share your thoughts. Your answer goes towards the daily challenge tomorrow!</p>
           <button class="option" style={{ backgroundColor: button1Color, color: button1TextColor, pointerEvents: submitted ? 'none' : 'auto' }} onClick={handleButton1Click}>{Option_1}</button>
           <button class="option" style={{ backgroundColor: button2Color, color: button2TextColor, pointerEvents: submitted ? 'none' : 'auto' }} onClick={handleButton2Click}>{Option_2}</button>
 
           {!submitted ? (
             <button class="submit-popup" type="submit" onClick={handleSubmitNEW}>Submit</button>
           ) : (
-            <button class="shareBtn" onClick={onShare}>
+            <button class="shareBtnPopup" onClick={onShare}>
                   <span class="shareText">Share</span>
                   <BsShare size={20} class="shareIcon"/>
             </button>

@@ -130,6 +130,26 @@ export const CircularSlider = ({ onShowPercentChange, submitted, difference, set
     }
   }
 
+  async function get_question() {
+    // Getting today's Date
+    const formattedDate = getCurrentFormattedDate();
+
+    const docRef = doc(db, "daily_pulls", formattedDate);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      const { dc_percent } = docSnap.data();
+      console.log("dc_percent", dc_percent);
+
+      setDcPercent(dc_percent);
+      if(submitted){
+        setSDO(804-(484*(dc_percent/100)));
+      }
+    } else {
+      console.log("No such document!");
+    }
+  }
+
   //new
   const [number, setNumber] = useState(0);
 
@@ -253,7 +273,8 @@ export const CircularSlider = ({ onShowPercentChange, submitted, difference, set
     //getDC();
     getDCNEW();
     //getQuestion();
-    getQuestionNEW();
+    //getQuestionNEW();
+    get_question();
     setKnobAngle(270); // Set the initial angle of the knob when the page loads
   }, []);
 

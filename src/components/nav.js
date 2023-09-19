@@ -26,11 +26,10 @@ const NavBar = () => {
 
   return (
     <div className="navbar">
-      <div className="navbar__title">PollThru</div>
+      <div className="navbar__title">pollthru.io</div>
       <div className="navbar__icons">
         <AiOutlineQuestionCircle size={25} className="navbar__icon" onClick={() => setQuestionOpen(true)} />
         <BsBarChart size={25} className="navbar__icon" onClick={() => setAnalyzeOpen(true)} />
-        <FiLogOut size={25} className="navbar__icon" onClick={logout}/>
       </div>
       <div className="navbar__line"></div>
 

@@ -40,7 +40,7 @@
 
 .question{
     font-size: 1.1rem;
-    margin-top: 18px;
+    margin-top: 0;
     margin-bottom: 0px;
 }
 
@@ -48,6 +48,7 @@
     font-style: italic;
     color: #909196;
     margin: 5px;
+    text-align: center;
 }
 
 #bottom-italic{
@@ -102,6 +103,18 @@
     margin: 0 auto;
 }
 
+.shareBtnPopup{
+    width: 34%;
+    border-radius: 35px;
+    padding: 4px 8px;
+    background-color: #8848F5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto; /* Added this line */
+    border: 2px solid #8848F5;
+}
+
 @media screen and (max-width: 500px) {
     .statsContainer{
         width: 100%;
@@ -111,5 +124,8 @@
     }
     .pStyle{
         font-size: .7rem;
+    }
+    .shareBtnPopup{
+        width: 46%;
     }
 }
